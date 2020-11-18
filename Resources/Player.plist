@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		<key>down-idle1</key>
+		<dict>
+			<key>frame</key>
+			<string>{{0,0},{56,100}}</string>
+			<key>sourceSize</key>
+			<string>{132,99}</string>
+			<key>offset</key>
+			<string>{0,0}</string>
+		</dict>
+		<key>down-idle2</key>
+		<dict>
+			<key>frame</key>
+			<string>{{56,0},{60,100}}</string>
+			<key>sourceSize</key>
+			<string>{132,99}</string>
+			<key>offset</key>
+			<string>{0,0}</string>
+		</dict>
+		<key>down-idle3</key>
+		<dict>
+			<key>sourceSize</key>
+			<string>{132,99}</string>
+			<key>frame</key>
+			<string>{{116,0},{67,100}}</string>
+			<key>offset</key>
+			<string>{0,0}</string>
+		</dict>
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>format</key>
+		<integer>2</integer>
+		<key>textureFileName</key>
+		<string>Player.png</string>
+		<key>size</key>
+		<string>{246,99}</string>
+	</dict>
+</dict>
+</plist>
