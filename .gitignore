@@ -4,6 +4,7 @@ CMakeLists.txt
 bin/
 cocos2d/
 mac-build/
+build_mac/
 proj.android/
 proj.ios_mac/
 proj.linux/

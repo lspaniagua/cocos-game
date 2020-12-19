@@ -105,7 +105,7 @@ bool HelloWorld::init()
 
 void HelloWorld::update(float delta) {
     Vec2 currentPosition = this->defaultCamera->getPosition();
-    updateController(delta, &currentPosition, currentCoord);
+    updateController(delta, &currentPosition, &currentCoord);
     this->defaultCamera->setPosition(currentPosition.x, currentPosition.y);
     player->setPosition(currentPosition.x, currentPosition.y);
 }
@@ -597,7 +597,7 @@ Coord ** HelloWorld::buildMap(int mapWidth, int mapHeight, float tileWidth, floa
 //
 
 // Controler.c
-void HelloWorld::updateController(float delta, cocos2d::Vec2 * position, Coord * currentCoord) {
+void HelloWorld::updateController(float delta, cocos2d::Vec2 * position, Coord ** currentCoord) {
     for (int i = 0; i < keys::LENGTH; i++) {
         switch (i) {
             case keys::LEFT:
@@ -614,12 +614,24 @@ void HelloWorld::updateController(float delta, cocos2d::Vec2 * position, Coord *
                 break;
         }
         bool collision = false;
-        cocos2d::PhysicsShapeEdgePolygon * polygon = cocos2d::PhysicsShapeEdgePolygon::create(currentCoord->points, 4);
-        if (polygon->containsPoint(* position)) {
-            printf("aaaaaaa\n");
-        }
-        for (Nodes * node = obstacles; node != NULL; node = node->next) {
-
+        Coord * coord = * currentCoord;
+        if (!polygonInsidePolygon(position, coord->points)) {
+            for (int ni = coord->i - 1; ni <= coord->i + 1 && !collision; ni++) {
+                for (int nj = coord->j - 1; nj <= coord->j + 1 && !collision; nj++) {
+                    if ((ni != coord->i || nj != coord->j) && isInsideMap(ni, nj)) {
+                        Coord * neightbor = &map[ni][nj];
+                        bool inside = polygonInsidePolygon(position, neightbor->points);
+                        if (inside) {
+                            if (neightbor->empty) {
+                                collision = true;
+                            }
+                            else {
+                                * currentCoord = neightbor;
+                            }
+                        }
+                    }
+                }
+            }
         }
         if (collision) {
             switch (i) {
@@ -687,5 +699,18 @@ void HelloWorld::removeObstacle(cocos2d::Node * obstacle) {
         }
         free(targetNode);
     }
+}
+
+bool HelloWorld::polygonInsidePolygon(cocos2d::Vec2 * point, cocos2d::Vec2 polygon[4]) {
+    bool inside = false;
+    for (int i = 0, j = 3; i < 4; j = i++) {
+        Vec2 p1 = polygon[i];
+        Vec2 p2 = polygon[j];
+        bool intersect = ((p1.y > point->y) != (p2.y > point->y)) && (point->x < (p2.x - p1.x) * (point->y - p1.y) / (p2.y - p1.y) + p1.x);
+        if (intersect) {
+            inside = !inside;
+        }
+    }
+    return inside;
 }
 //

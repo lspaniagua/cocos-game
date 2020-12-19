@@ -87,10 +87,11 @@ public:
     float pressedKeys[4] = { .0, .0, .0, .0 };
     Nodes * obstacles = NULL;
 
-    void updateController(float delta, cocos2d::Vec2 * position, Coord * currentCoord);
+    void updateController(float delta, cocos2d::Vec2 * position, Coord ** currentCoord);
     void updatePressedKeys(cocos2d::EventKeyboard::KeyCode keyCode, float diff);
     void addObstacle(cocos2d::Node * obstacle);
     void removeObstacle(cocos2d::Node * obstacle);
+    bool polygonInsidePolygon(cocos2d::Vec2 * point, cocos2d::Vec2 polygon[4]);
     //
     
     // implement the "static create()" method manually
